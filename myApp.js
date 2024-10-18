@@ -9,9 +9,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     console.error("Connection to DB failed:", err);
   })
 
-const Schema = mongoose.Schema
-
-const personSchema = new Schema({
+const personSchema = new mongoose.Schema({
   name: { type: String, required: true },
   age: Number,
   favoriteFoods: [String]
@@ -20,7 +18,12 @@ const personSchema = new Schema({
 const Person = mongoose.model("Person", personSchema);
 
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  const JackWoolf = new Person({name: "Jack", age: 412, favouriteFoods: ['Meat', 'Monsters']});
+  
+  JackWoolf.save((err, data) => {
+    if (err) return console.error(err);
+    done(null, data);
+  })
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
